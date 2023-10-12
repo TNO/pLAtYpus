@@ -1,7 +1,7 @@
 devel/
 pLAtYpus_environment/
 __pycache__/
-output/
+output/*
 !output/pLAtYpus.sqlite3
 !output/pLAtYpus_only_survey.sqlite3
 input/
