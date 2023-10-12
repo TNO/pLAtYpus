@@ -1,7 +1,15 @@
+.gitignore
+GRETA_Logo_Acronym_RGB-1-1.svg
 LICENCE
 README.md
+eu-emblem-low-res.jpg
+pLAtYpus.toml
 pyproject.toml
 requirements.txt
+dist/pLAtYpus_TNO-1.0-py3-none-any.whl
+dist/pLAtYpus_TNO-1.0.tar.gz
+output/pLAtYpus.sqlite3
+output/pLAtYpus_only_survey.sqlite3
 src/pLAtYpus_TNO/GRETA_tool.py
 src/pLAtYpus_TNO/__init__.py
 src/pLAtYpus_TNO/extra_plots.py
