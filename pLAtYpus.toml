@@ -1,0 +1,1976 @@
+#  Created by Omar Usmai (Omar.Usmani@TNO.nl).
+#  This file contains configuration parameters for pLAtYpus
+
+
+[files]
+output_folder = 'output'
+groupfile_name = 'pLAtYpus'
+groupfile_name_only_survey = 'pLAtYpus_only_survey'
+survey_topics_table_name = 'survey_topics'
+
+
+[files.figures]
+dpi = 240
+# Indicate below if you want to save your (Matplotlib) figures
+# In the given formats, and the dpi you want to use (common for all)
+[files.figures.outputs]
+png = true
+pdf = false
+svg = true
+eps = false
+
+
+# Indicate below if you want to save your Pandas DataFrames in the
+# listed formats (put a true if you want to do so, false if you don't)
+[files.dataframe_outputs]
+csv = true
+json = false
+html = false
+latex = false
+xml = false
+clipboard = false  # This saves the file to the local clipboard
+excel = false
+hdf = false
+feather = false
+parquet = false
+stata = false
+pickle = true
+sql = true
+
+
+[colors]
+kraken_deep_sea_blue = [0, 22, 40]
+kraken_ice_blue = [153, 217, 217]
+kraken_boundless_blue = [53, 84, 100]
+kraken_shadow_blue = [104, 162, 185]
+kraken_red_alert = [233, 7, 43]
+GRETA_darkest = [148, 117, 1]
+GRETA_dark = [254, 210, 43]
+GRETA_light = [254, 228, 128]
+GRETA_lightest = [255, 237, 170]
+
+
+[color_bars]
+kraken = [
+    'kraken_deep_sea_blue', 'kraken_boundless_blue',
+    'kraken_shadow_blue', 'kraken_ice_blue']
+# GRETA = ['GRETA_darkest', 'GRETA_dark', 'GRETA_light', 'GRETA_lightest']
+GRETA = ['GRETA_lightest', 'GRETA_light', 'GRETA_dark', 'GRETA_darkest']
+
+[plots]
+plotting_style = 'fivethirtyeight'
+do_plot_survey_scores = true
+do_plot_intention_weights  = true
+# stakeholder_colors = [
+#     'kraken_deep_sea_blue', 'kraken_shadow_blue', 'kraken_ice_blue']
+stakeholder_colors = ['GRETA_light', 'GRETA_dark', 'GRETA_darkest']
+stakeholder_line_widths = [6, 4, 1]
+[plots.evolution]
+y_axis_title = 'Engagement level'
+y_axis_title_no_percent = 'Engagement level'
+y_min = 0
+y_max = 1
+use_percent = true
+
+[dashboard]
+dash_plot_width = 89
+dash_plot_height = 42
+dash_plot_background_color = 'kraken_ice_blue'
+slider_font_size = 18
+percent_ticks = [0, 0.25, 0.5, 0.75, 1]
+plus_min_1_ticks = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1]
+percent_sliders_min = 0
+percent_sliders_max = 1
+percent_sliders_step_size = 0.01
+numeric_sliders_min = -1
+numeric_sliders_max = 1
+numeric_sliders_step_size = 0.01
+slider_percent_width = 26
+
+citizen_survey_sliders_coefficients = [
+    'environmental_impact', 'knowledge', 'afford', 'trust_business',
+    'trust_government'
+]
+citizen_survey_sliders_display_names = [
+    'Environmental Impact', 'Knowledge', 'Affordability',
+    'Trust in business', 'Trust in government'
+]
+
+
+[pLAtYpus]
+
+phases = ['attention', 'enable', 'intention']
+stakeholders = ['citizens', 'business', 'government']
+product = 'autonomous_cars'
+country = 'Netherlands'
+
+
+# # Lotka-Volterra
+initial_yes = [0.06, 0.04, 0.02]
+time_span = [0, 42]
+percentage_time_span_end_average = 0.26
+long_term_averages_table_name_prefix = 'long_term_averages'
+time_steps = 10000
+yes_evolution_table_name = 'yes_evolution'
+time_header = 'Time'
+
+[survey]
+countries = [
+    'Austria',
+    'Belgium',
+    'Czechia',
+    'Denmark',
+    'Finland',
+    'France',
+    'Germany',
+    'Greece',
+    'Hungary',
+    'Ireland',
+    'Italy',
+    'Netherlands',
+    'Poland',
+    'Portugal',
+    'Romania',
+    'Spain'
+]
+country_codes = [
+    'AT',
+    'BE',
+    'CZ',
+    'DK',
+    'FI',
+    'FR',
+    'DE',
+    'EL',
+    'HU',
+    'IE',
+    'IT',
+    'NL',
+    'PL',
+    'PT',
+    'RO',
+    'ES'
+]
+
+survey_scores_actions = ['Adopt', 'Leave']
+survey_data_file = 'survey.sqlite3'
+
+[survey.data]
+[survey.data.source]
+source_folder = 'input/survey'
+# source_file = 'Raw_data.xlsx'
+source_sheets = ['Weighted', 'Foglio1', 'Foglio1']
+source_prefix = 'GRETA Statistical tables - '
+source_suffix = ' Total Sample & Country view'
+source_stakeholder_labels = ['Citizen', 'Business', 'Policymaker']
+topic_merged_rows = [3, 2, 2]
+source_extension = '.xlsx'
+
+[survey.data.output]
+output_folder = 'input/survey'
+full_output_file_prefix = 'Full_Processed_data_'
+full_output_file_extension = '.xlsx'
+writing_engine = 'openpyxl'
+database_file_name = 'survey.sqlite3'
+
+# [survey.data.country_codes]
+# 4 = 'Austria'
+# 5 = 'Belgium'
+# 6 = 'Czechia'
+# 7 = 'Denmark'
+# 8 = 'Finland'
+# 9 = 'France'
+# 10 = 'Germany'
+# 11 = 'Greece'
+# 12 = 'Hungary'
+# 13 = 'Ireland'
+# 14 = 'Italy'
+# 15 = 'Netherlands'
+# 16 = 'Poland'
+# 17 = 'Portugal'
+# 18 = 'Romania'
+# 19 = 'Spain'
+
+[survey.relation_definitions]
+# relation_names = [
+#     'common_good', 'dominated_by_partner',
+#     'give_as_receive', 'everything_has_a_price'
+# ]
+relation_types = ['perceived', 'ideal']
+table_name = 'relations_from_survey'
+deviations_table = 'relations_deviations'
+filters_reading_relations_table = ['Country']
+deviations_columns = ['Standard deviation', 'Relation score']
+relation_score_column = '"Relation score"'
+[survey.relations]
+[survey.relations.citizens]
+partners = ['business', 'government']
+[survey.relations.citizens.cooperative_self_generation]
+perceived_codes = ['c64', 'c66']
+ideal_codes = ['c65', 'c67']
+[survey.relations.citizens.sustainable_transport]
+perceived_codes = ['c76', 'c78']
+ideal_codes = ['c77', 'c79']
+[survey.relations.citizens.autonomous_cars]
+perceived_codes = ['c88', 'c90']
+ideal_codes = ['c89', 'c91']
+# Replace gas has data only for some countries
+# [survey.relations.replace_gas_appliances]
+# partners = ['business', 'government']
+# perceived_codes = ['c100', 'c102']
+# ideal_codes = ['c101', 'c103']
+
+[survey.relations.business]
+partners = ['citizens', 'government']
+[survey.relations.business.cooperative_self_generation]
+perceived_codes = ['b64', 'b66']
+ideal_codes = ['b65', 'b67']
+[survey.relations.business.sustainable_transport]
+perceived_codes = ['b76', 'b78']
+ideal_codes = ['b77', 'b79']
+[survey.relations.business.autonomous_cars]
+perceived_codes = ['b88', 'b90']
+ideal_codes = ['b89', 'b91']
+
+
+[survey.relations.government]
+partners = ['business', 'citizens']
+[survey.relations.government.cooperative_self_generation]
+perceived_codes = ['p64', 'p66']
+ideal_codes = ['p65', 'p67']
+[survey.relations.government.sustainable_transport]
+perceived_codes = ['p76', 'p78']
+ideal_codes = ['p77', 'p79']
+[survey.relations.government.autonomous_cars]
+perceived_codes = ['p88', 'p90']
+ideal_codes = ['p89', 'p91']
+
+
+[survey.products]
+[survey.products.citizens]
+[survey.products.citizens.cooperative_self_generation.environmental_outcomes]
+prefixes = [
+    'c59',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.citizens.cooperative_self_generation.outcomes_to_the_individual_and_household]
+prefixes = [
+    'c61',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.citizens.cooperative_self_generation.agency_to_engage]
+prefixes = [
+    'c63',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.citizens.cooperative_self_generation.emotions]
+prefixes = [
+    'c68',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.citizens.sustainable_transport.environmental_outcomes]
+prefixes = [
+    'c71',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.citizens.sustainable_transport.outcomes_to_the_individual_and_household]
+prefixes = [
+    'c73',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.citizens.sustainable_transport.agency_to_engage]
+prefixes = [
+    'c75',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.citizens.sustainable_transport.emotions]
+prefixes = [
+    'c80',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.citizens.autonomous_cars.environmental_outcomes]
+prefixes = [
+    'c83',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.citizens.autonomous_cars.outcomes_to_the_individual_and_household]
+prefixes = [
+    'c85',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.citizens.autonomous_cars.agency_to_engage]
+prefixes = [
+    'c87',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.citizens.autonomous_cars.emotions]
+prefixes = [
+    'c92',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.business]
+[survey.products.business.cooperative_self_generation.environmental_outcomes]
+prefixes = [
+    'b59',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.business.cooperative_self_generation.outcomes_to_the_individual_and_household]
+prefixes = [
+    'b61',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.business.cooperative_self_generation.agency_to_engage]
+prefixes = [
+    'b63',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.business.cooperative_self_generation.emotions]
+prefixes = [
+    'b68',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.business.sustainable_transport.environmental_outcomes]
+prefixes = [
+    'b71',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.business.sustainable_transport.outcomes_to_the_individual_and_household]
+prefixes = [
+    'b73',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.business.sustainable_transport.agency_to_engage]
+prefixes = [
+    'b75',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.business.sustainable_transport.emotions]
+prefixes = [
+    'b80',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.business.autonomous_cars.environmental_outcomes]
+prefixes = [
+    'b83',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.business.autonomous_cars.outcomes_to_the_individual_and_household]
+prefixes = [
+    'b85',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.business.autonomous_cars.agency_to_engage]
+prefixes = [
+    'b87',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.business.autonomous_cars.emotions]
+prefixes = [
+    'b92',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.government]
+[survey.products.government.cooperative_self_generation.environmental_outcomes]
+prefixes = [
+    'p59',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.government.cooperative_self_generation.outcomes_to_the_individual_and_household]
+prefixes = [
+    'p61',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.government.cooperative_self_generation.agency_to_engage]
+prefixes = [
+    'p63',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.government.cooperative_self_generation.emotions]
+prefixes = [
+    'p68',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.government.sustainable_transport.environmental_outcomes]
+prefixes = [
+    'p71',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.government.sustainable_transport.outcomes_to_the_individual_and_household]
+prefixes = [
+    'p73',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.government.sustainable_transport.agency_to_engage]
+prefixes = [
+    'p75',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.government.sustainable_transport.emotions]
+prefixes = [
+    'p80',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.government.autonomous_cars.environmental_outcomes]
+prefixes = [
+    'p83',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [
+        false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false
+    ]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+
+[survey.products.government.autonomous_cars.outcomes_to_the_individual_and_household]
+prefixes = [
+    'p85',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+[survey.products.government.autonomous_cars.agency_to_engage]
+prefixes = [
+    'p87',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+]
+
+adopt_are_top = [
+    [true, true, true, true, true, true, true, true, true, true]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[survey.products.government.autonomous_cars.emotions]
+prefixes = [
+    'p92',
+]
+
+# Put one string per prefix above (including '' if there is no midfix)
+midfixes = [
+    '__'
+]
+
+# Put a list of suffixes for eaxh prefix. If there are no suffixes, put:
+# ['']
+suffixes = [
+    [1, 2, 3, 4, 5, 6, 7, 8]
+]
+
+top_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+bottom_answer_levels = [
+    [2, 2, 2, 2, 2, 2, 2, 2]
+]
+
+answer_lengths = [
+    [7, 7, 7, 7, 7, 7, 7, 7,]
+]
+
+adopt_are_top = [
+    [true, true, true, true, false, false, false, false]
+]
+
+
+total_shifts_from_bottom = [
+    # Put 0 if the total is the last answer, 1 if it is 1 above, etc.
+    [1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+[products]
+[products.autonomous_cars]
+survey_enable_parameters = []  # ['afford', 'knowledge']
+availability_threshold_adopt = 0 # 0.42
+availability_threshold_leave = 0 # 0.26
+[products.sustainable_transport]
+survey_enable_parameters = []  # ['afford', 'knowledge']
+availability_threshold_adopt = 0 # 0.42
+availability_threshold_leave = 0 # 0.26
+[products.cooperative_self_generation]
+survey_enable_parameters = []  # ['afford', 'knowledge']
+availability_threshold_adopt = 0 # 0.42
+availability_threshold_leave = 0 # 0.26
+
+[maps]
+map_data_folder = 'input/map_data'
+area_data_file_name = 'NUTS_RG_01M_2021_3857_LEVL_0.json'
+general_exclusion_codes = [
+ 'ES703', 'ES704', 'ES705', 'ES706', 'ES707', 'ES708', 'ES709',
+ 'PT200', 'PT300',
+ 'FRY10', 'FRY20', 'FRY30', 'FRY40', 'FRY50',
+ 'NO0B1', 'NO0B2'
+]
+border_data_file_prefix = 'NUTS_BN_01M_2021_3857_LEVL_'
+border_data_file_suffix = '.json'
+points_data_file_prefix = 'NUTS_LB_2021_3857_LEVL_'
+points_data_file_suffix = '.json'
+country_code_header = 'Country Code'
+country_code_header_in_map_data = 'CNTR_CODE'
+heat_bar_map = 'GRETA'
+non_survey_country_color = 'gainsboro'
+map_title_font_size = 18
+
+[intention.categories.citizens]
+[intention.categories.citizens.outcomes_to_the_individual_and_household]
+weight_of_category = [14.879720826229, 13.7253680608991, 14.1420182486402]  # per country too?
+survey_components = ['outcomes_to_the_individual_and_household']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+
+[intention.categories.citizens.agency_to_engage]
+weight_of_category = [14.620567073923, 12.2931965732521, 13.9040406738385]  # per country too?
+survey_components = ['agency_to_engage']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.citizens.environmental_outcomes]
+weight_of_category = [13.1124867604634, 12.195616182, 12.7833116393429]  # per country too?
+survey_components = ['environmental_outcomes']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.citizens.social_norm]
+weight_of_category = [9.72810868546961, 8.08853997256633, 10.3796185104199]  # per country too?
+survey_components = ['one', 'one', 'one']
+survey_component_weights = [0.3333333333333, 0.3333333333333, 0.3333333333333]
+yes_functions_adopt = ['yes', 'yes', 'yes']
+yes_functions_leave = ['no', 'no', 'no']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens', 'business', 'government']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.citizens.engagement_emotion]
+weight_of_category = [7.14903141596314, 6.4784556020131, 7.40220920088127]  # per country too?
+survey_components = ['emotions']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.citizens.dominant_relational_model]
+weight_of_category = [5.01365791702975, 4.77455906595901, 5.13836323363909]  # per country too?
+survey_components = ['relation_score_business', 'relation_score_government']
+survey_component_weights = [0.5, 0.5]
+yes_functions_adopt = ['constant', 'constant']
+yes_functions_leave = ['constant', 'constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['business', 'government']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+
+
+[intention.categories.business]
+[intention.categories.business.outcomes_to_the_individual_and_household]
+weight_of_category = [14.352123670677, 16.8781270416185, 15.1837827907806]  # per country too?
+survey_components = ['outcomes_to_the_individual_and_household']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+
+[intention.categories.business.agency_to_engage]
+weight_of_category = [15.7438387013673, 11.9544999571659, 13.2230594671536]  # per country too?
+survey_components = ['agency_to_engage']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.business.environmental_outcomes]
+weight_of_category = [10.6365591089349, 11.8296546106788, 11.6505482146544]   # per country too?
+survey_components = ['environmental_outcomes']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.business.social_norm]
+weight_of_category = [11.5215442675482, 12.5845933071884, 10.2962089225707]  # per country too?
+survey_components = ['one', 'one', 'one']
+survey_component_weights = [0.3333333333333, 0.3333333333333, 0.3333333333333]
+yes_functions_adopt = ['yes', 'yes', 'yes']
+yes_functions_leave = ['no', 'no', 'no']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens', 'business', 'government']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.business.engagement_emotion]
+weight_of_category = [5.77636875512702, 6.04308722670958, 6.65816184620438]  # per country too?
+survey_components = ['emotions']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.business.dominant_relational_model]
+weight_of_category = [6.69713497565945, 4.43610337963862, 4.77381095786494]  # per country too?
+survey_components = ['relation_score_citizens', 'relation_score_government']
+survey_component_weights = [0.5, 0.5]
+yes_functions_adopt = ['constant', 'constant']
+yes_functions_leave = ['constant', 'constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens', 'government']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+
+
+[intention.categories.government]
+[intention.categories.government.outcomes_to_the_individual_and_household]
+weight_of_category = [10.9888079319573, 16.7001920858207, 8.75615471149258]  # per country too?
+survey_components = ['outcomes_to_the_individual_and_household']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+
+[intention.categories.government.agency_to_engage]
+weight_of_category = [14.9822099388162, 13.3882590298019, 11.5608538338861]  # per country too?
+survey_components = ['agency_to_engage']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.government.environmental_outcomes]
+weight_of_category = [11.4515029343725, 11.3058093433411, 11.2878374419752]   # per country too?
+survey_components = ['environmental_outcomes']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.government.social_norm]
+weight_of_category = [10.5654253321491, 10.4422419998715, 10.2324244913671]  # per country too?
+survey_components = ['one', 'one', 'one']
+survey_component_weights = [0.3333333333333, 0.3333333333333, 0.3333333333333]
+yes_functions_adopt = ['yes', 'yes', 'yes']
+yes_functions_leave = ['no', 'no', 'no']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens', 'business', 'government']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.government.engagement_emotion]
+weight_of_category = [7.27913746946755, 9.72889553366063, 7.33518936420255]  # per country too?
+survey_components = ['emotions']
+survey_component_weights = [1]
+yes_functions_adopt = ['constant']
+yes_functions_leave = ['constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+[intention.categories.government.dominant_relational_model]
+weight_of_category = [4.36216400780693, 10.788796634336, 5.55304375370214]  # per country too?
+survey_components = ['relation_score_citizens', 'relation_score_business']
+survey_component_weights = [0.5, 0.5]
+yes_functions_adopt = ['constant', 'constant']
+yes_functions_leave = ['constant', 'constant']
+# Put 'yes' if the value is proportional to the adoption of a given stakeholder
+# 'no' if it is proportional to the non-adoption of a given stakeholder
+# and 'constant' if it is not proportional to either
+yes_stakeholders = ['citizens', 'business']
+# Put the name of the corresponding stakeholder (one of the names above:
+# [pLAtYpus]
+# stakeholders = ['citizens', 'business', 'government']
+# If there is no proportionality, choose any  stakeholder
+# (but you need to choose one)
+
+[attention]
+Adopt = [1, 1, 1]
+Leave = [1, 1, 1]
