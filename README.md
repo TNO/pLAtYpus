@@ -4,7 +4,9 @@ This repository contains the pLAtYpus
 model.
 
 ## Authors and contact
+Carlos Montalvo Corral (carlos.montalvo@tno.nl)
 Omar Usmani (Omar.Usmani@TNO.nl)
+
 
 ## Installation and use
 ### Installation
@@ -99,6 +101,11 @@ assumptions and computations of the pLAtYpus model.
 ### **Uses outside GRETA**
 
 #### **Prior to GRETA**
+##### Change and Innovation
+1. https://www.inderscienceonline.com/doi/abs/10.1504/IJPP.2007.012274
+2. https://www.sciencedirect.com/science/article/pii/S0166497204001531
+3. https://openlibrary.org/books/OL12563883M/Environmental_Policy_and_Technological_Innovation
+
 ##### CODEC
 1. https://www.sciencedirect.com/science/article/pii/S2214629623000282
 2. https://publications.tno.nl/publication/34627599/zZ5Fcw/TNO-2018-P11304.pdf
@@ -108,6 +115,8 @@ assumptions and computations of the pLAtYpus model.
 
 
 #### **After/during GRETA**
+
+1. https://projectgreta.eu/wp-content/uploads/2022/01/GRETA_D1_1_Energy-citizenship-emergence-framework_v1_0.pdf
 
 
 #### **Future**
