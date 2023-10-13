@@ -199,6 +199,7 @@ database_file_name = 'survey.sqlite3'
 relation_types = ['perceived', 'ideal']
 table_name = 'relations_from_survey'
 deviations_table = 'relations_deviations'
+bidirectional_deviations_table = 'bidirecttional_deviations'
 filters_reading_relations_table = ['Country']
 deviations_columns = ['Standard deviation', 'Relation score']
 relation_score_column = '"Relation score"'

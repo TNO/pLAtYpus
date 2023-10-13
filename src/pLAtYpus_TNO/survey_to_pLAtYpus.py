@@ -156,6 +156,7 @@ def get_survey_product_values(parameters):
         relations_deviations_dataframe = (
             get_relationship_deviations(stakeholder, parameters)
         )
+        get_bidirectional_relationship_deviations(parameters)
 
         partners = parameters['survey']['relations'][stakeholder]['partners']
         for country in countries:
@@ -498,6 +499,100 @@ def get_relationship_deviations(stakeholder, parameters):
             groupfile_name, output_folder, parameters
         )
     return relations_deviations_dataframe
+
+
+def get_bidirectional_relationship_deviations(parameters):
+    '''
+    This computes the bidirectional relation deviations, i.e. how
+    good (or bad) the relation between two parties is.
+    '''
+    stakeholders = parameters['pLAtYpus']['stakeholders']
+    file_parameters = parameters['files']
+    output_folder = file_parameters['output_folder']
+    groupfile_name = file_parameters['groupfile_name']
+    source_database = f'{output_folder}/{groupfile_name}.sqlite3'
+    survey_parameters = parameters['survey']
+    relation_definition_parameters = survey_parameters['relation_definitions']
+    deviations_table_name_root = (
+        relation_definition_parameters['deviations_table']
+    )
+    bidirectional_deviations_table = (
+        relation_definition_parameters['bidirectional_deviations_table']
+    )
+    deviations_tables = {}
+    countries = survey_parameters['countries']
+    product_list = parameters['products']
+    with sqlite3.connect(source_database) as database_connection:
+        for stakeholder in stakeholders:
+            deviations_table_name = (
+                f'{stakeholder}_{deviations_table_name_root}'
+            )
+            relations_table_query = (
+                cook.read_query_generator(
+                    '*', deviations_table_name, [], [], []
+                )
+            )
+            deviations_tables[stakeholder] = pd.read_sql(
+                relations_table_query, database_connection
+            ).set_index(['Country', 'Product', 'Partner'])
+    product = 'autonomous_cars'
+    country = 'Netherlands'
+    stakeholder_pairs = []
+    for stakeholder_index, stakeholder in enumerate(stakeholders):
+        for partner in stakeholders[stakeholder_index+1:]:
+            stakeholder_pairs.append((stakeholder, partner))
+
+    bidirectional_relationships_index_tuples = [
+        (country, product, pair)
+        for country in countries
+        for product in product_list
+        for pair in stakeholder_pairs
+    ]
+    bidirectional_relationships_index = pd.MultiIndex.from_tuples(
+        bidirectional_relationships_index_tuples,
+        names=['Country', 'Product', 'Pair']
+    )
+    bidirectional_relationship_deviations = pd.DataFrame(
+        columns=['Standard Deviation', 'Relation score'],
+        index=bidirectional_relationships_index
+    )
+    for country in countries:
+        for product in product_list:
+            for stakeholder_pair in stakeholder_pairs:
+                # The variance is the sum of the squares of the two deviations
+                # corresponding to the pair, divided by two
+                variance = (
+                    (
+                        deviations_tables[stakeholder_pair[0]]
+                        .loc[country, product, stakeholder_pair[1]]
+                        ['Standard deviation']
+                    ) ** 2
+                    +
+                    (
+                        deviations_tables[stakeholder_pair[1]]
+                        .loc[country, product, stakeholder_pair[0]]
+                        ['Standard deviation']
+                    ) ** 2
+                ) / 2
+                standard_deviation = math.sqrt(variance)
+                relation_score = 1 - standard_deviation
+                bidirectional_relationship_deviations.loc[
+                    country, product, stakeholder_pair] = [
+                        standard_deviation, relation_score
+                    ]
+    # sqlite3 does not support tuples, so we convert the pair names
+    # to strings
+    bidirectional_relationship_deviations = (
+        bidirectional_relationship_deviations.reset_index()
+    )
+    bidirectional_relationship_deviations['Pair'] = (
+        bidirectional_relationship_deviations['Pair'].astype('str')
+    )
+    cook.save_dataframe(
+            bidirectional_relationship_deviations,
+            bidirectional_deviations_table,
+            groupfile_name, output_folder, parameters
+        )
 
 
 if __name__ == '__main__':
