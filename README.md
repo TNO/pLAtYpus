@@ -102,21 +102,48 @@ assumptions and computations of the pLAtYpus model.
 
 #### **Prior to GRETA**
 ##### Change and Innovation
-1. https://www.inderscienceonline.com/doi/abs/10.1504/IJPP.2007.012274
-2. https://www.sciencedirect.com/science/article/pii/S0166497204001531
-3. https://openlibrary.org/books/OL12563883M/Environmental_Policy_and_Technological_Innovation
+1. [Explaining and predicting the impact of regulation on innovation: towards a dynamic model, Carlos Montalvo, International Journal of Public Policy, Vol 2, pp 5-31](https://www.inderscienceonline.com/doi/abs/10.1504/IJPP.2007.012274)
+2. [Carlos Montalvo,
+What triggers change and innovation?,
+Technovation,
+Volume 26, Issue 3,
+2006,
+Pages 312-323,
+ISSN 0166-4972,](https://www.sciencedirect.com/science/article/pii/S0166497204001531)
+3. [Environmental Policy and Technological Innovation
+Why Do Firms Adopt or Reject New Technologies? (New Horizons in the Economics of Innovation Series), Carlos Montalvo Corral, An edition of Environmental Policy and Technological Innovation (2002)](https://openlibrary.org/books/OL12563883M/Environmental_Policy_and_Technological_Innovation)
 
 ##### CODEC
-1. https://www.sciencedirect.com/science/article/pii/S2214629623000282
-2. https://publications.tno.nl/publication/34627599/zZ5Fcw/TNO-2018-P11304.pdf
-3. https://www.sciencedirect.com/science/article/pii/S0960148119313928
+1. [Geerte L. Paradies, Omar A. Usmani, Sam Lamboo, Ruud W. van den Brink,
+Falling short in 2030: Simulating battery-electric vehicle adoption behaviour in the Netherlands,
+Energy Research & Social Science,
+Volume 97,
+2023,
+102968,
+ISSN 2214-6296](https://www.sciencedirect.com/science/article/pii/S2214629623000282)
+2. [Modelling consumer decisions towards 
+sustainable energy technology, S. Brunsting, R. Matton, C. Tigchelaar, l. Dreijerink, G.L. Paradies, J. Jamssen, O. Usmani, TNO, Decmeber 2018](https://publications.tno.nl/publication/34627599/zZ5Fcw/TNO-2018-P11304.pdf)
+3. [Marc Londo, Robin Matton, Omar Usmani, Marieke van Klaveren, Casper Tigchelaar, Suzanne Brunsting,
+Alternatives for current net metering policy for solar PV in the Netherlands: A comparison of impacts on business case and purchasing behaviour of private homeowners, and on governmental costs,
+Renewable Energy,
+Volume 147, Part 1,
+2020,
+Pages 903-915,
+ISSN 0960-1481](https://www.sciencedirect.com/science/article/pii/S0960148119313928)
 
 
 
 
 #### **After/during GRETA**
 
-1. https://projectgreta.eu/wp-content/uploads/2022/01/GRETA_D1_1_Energy-citizenship-emergence-framework_v1_0.pdf
+1. [Montalvo, C., Schlindwein, L., Ruggieri, B., Kantel, A. (2021).
+Framework for research on energy citizenship emergence structure
+and dynamics. D1.1 of the Horizon 2020 project GRETA, EC grant
+agreement no 101022317, The Hague, The Netherlands](https://projectgreta.eu/wp-content/uploads/2022/01/GRETA_D1_1_Energy-citizenship-emergence-framework_v1_0.pdf)
+2. [López, A.; Hermoso, N.; Sánchez, B.; Usmani, O.; Montalvo, C.;
+Abel, D.; Lieth, J.; Jünger, S.; Kuronen, T.; Lensu, L. (2023). 
+Definition of the modelling framework. D4.2 of the Horizon 2020 
+project GRETA, EC grant agreement nº 101022317, Bilbao, Spain.](https://projectgreta.eu/wp-content/uploads/2023/06/GRETA_D4.2_Modelling-framework.pdf)
 
 
 #### **Future**
