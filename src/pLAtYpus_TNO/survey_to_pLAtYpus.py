@@ -157,6 +157,7 @@ def get_survey_product_values(parameters):
             get_relationship_deviations(stakeholder, parameters)
         )
         get_bidirectional_relationship_deviations(parameters)
+        get_product_relation_deviations(parameters)
 
         partners = parameters['survey']['relations'][stakeholder]['partners']
         for country in countries:
@@ -391,7 +392,6 @@ def get_intention_weights(parameters):
                 for stakeholder in stakeholders}
         )
     for product in products:
-        print(category_weights[product])
         intention_weights = pd.DataFrame()
         for stakeholder in stakeholders:
             intention_weights[stakeholder] = (
@@ -535,8 +535,6 @@ def get_bidirectional_relationship_deviations(parameters):
             deviations_tables[stakeholder] = pd.read_sql(
                 relations_table_query, database_connection
             ).set_index(['Country', 'Product', 'Partner'])
-    product = 'autonomous_cars'
-    country = 'Netherlands'
     stakeholder_pairs = []
     for stakeholder_index, stakeholder in enumerate(stakeholders):
         for partner in stakeholders[stakeholder_index+1:]:
@@ -591,6 +589,87 @@ def get_bidirectional_relationship_deviations(parameters):
     cook.save_dataframe(
             bidirectional_relationship_deviations,
             bidirectional_deviations_table,
+            groupfile_name, output_folder, parameters
+        )
+
+
+def get_product_relation_deviations(parameters):
+    '''
+    This gets the relation deviations for a given product.
+    We sum the squares of all deviations for a given product,
+    divide by the number of relationships, and take the square root, to
+    get a general standard deviation for this product (and a relation score,
+    which is 1-standard deviation)
+    '''
+    stakeholders = parameters['pLAtYpus']['stakeholders']
+    file_parameters = parameters['files']
+    output_folder = file_parameters['output_folder']
+    groupfile_name = file_parameters['groupfile_name']
+    source_database = f'{output_folder}/{groupfile_name}.sqlite3'
+    survey_parameters = parameters['survey']
+    relation_definition_parameters = survey_parameters['relation_definitions']
+    product_deviations_table = (
+        relation_definition_parameters['product_deviations_table']
+    )
+    deviations_table_name_root = (
+        relation_definition_parameters['deviations_table']
+    )
+    deviations_tables = {}
+    countries = survey_parameters['countries']
+    product_list = parameters['products']
+    with sqlite3.connect(source_database) as database_connection:
+        for stakeholder in stakeholders:
+            deviations_table_name = (
+                f'{stakeholder}_{deviations_table_name_root}'
+            )
+            relations_table_query = (
+                cook.read_query_generator(
+                    '*', deviations_table_name, [], [], []
+                )
+            )
+            deviations_tables[stakeholder] = pd.read_sql(
+                relations_table_query, database_connection
+            ).set_index(['Country', 'Product', 'Partner'])
+    product_relationships_index_tuples = [
+        (country, product)
+        for country in countries
+        for product in product_list
+    ]
+    product_relationships_index = pd.MultiIndex.from_tuples(
+        product_relationships_index_tuples,
+        names=['Country', 'Product']
+    )
+    product_relationship_deviations = pd.DataFrame(
+        columns=['Standard Deviation', 'Relation score'],
+        index=product_relationships_index
+    )
+    for country in countries:
+        for product in product_list:
+            total_deviations_squared = 0
+            for stakeholder in stakeholders:
+                total_deviations_squared += (
+                    sum(
+                        deviations_tables[stakeholder]
+                        .loc[country, product]['Standard deviation'].values**2
+                    )
+                )
+            variance = (
+                total_deviations_squared
+                /
+                (len(stakeholders)*(len(stakeholders)-1))
+                # If you have a division by zero,
+                # that's because you only have one stakeholder,
+                # which would make this meaningless.
+            )
+
+            standard_deviation = math.sqrt(variance)
+            relation_score = 1 - standard_deviation
+            product_relationship_deviations.loc[country, product] = (
+                [standard_deviation, relation_score]
+            )
+    cook.save_dataframe(
+            product_relationship_deviations,
+            product_deviations_table,
             groupfile_name, output_folder, parameters
         )
 
