@@ -4,7 +4,7 @@ This repository contains the pLAtYpus
 model.
 
 ## Authors and contact
-Carlos Montalvo Corral (carlos.montalvo@tno.nl)
+Carlos Montalvo (carlos.montalvo@tno.nl)
 Omar Usmani (Omar.Usmani@TNO.nl)
 
 
@@ -111,7 +111,7 @@ Volume 26, Issue 3,
 Pages 312-323,
 ISSN 0166-4972,](https://www.sciencedirect.com/science/article/pii/S0166497204001531)
 3. [Environmental Policy and Technological Innovation
-Why Do Firms Adopt or Reject New Technologies? (New Horizons in the Economics of Innovation Series), Carlos Montalvo Corral, An edition of Environmental Policy and Technological Innovation (2002)](https://openlibrary.org/books/OL12563883M/Environmental_Policy_and_Technological_Innovation)
+Why Do Firms Adopt or Reject New Technologies? (New Horizons in the Economics of Innovation Series), Carlos Montalvo, An edition of Environmental Policy and Technological Innovation (2002)](https://openlibrary.org/books/OL12563883M/Environmental_Policy_and_Technological_Innovation)
 
 ##### CODEC
 1. [Geerte L. Paradies, Omar A. Usmani, Sam Lamboo, Ruud W. van den Brink,
