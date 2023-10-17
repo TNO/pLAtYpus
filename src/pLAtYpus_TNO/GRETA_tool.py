@@ -151,7 +151,7 @@ def update_intention_weights(
     their sum is still one.
     If there are more changes, you can iterate.
     '''
-    new_weight = np.float64(new_weight) 
+    new_weight = np.float64(new_weight)
     # In case strings are entered, for example
     file_parameters = parameters['files']
     output_folder = file_parameters['output_folder']
