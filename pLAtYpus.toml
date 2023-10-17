@@ -10,7 +10,7 @@ survey_topics_table_name = 'survey_topics'
 
 
 [files.figures]
-dpi = 240
+dpi = 480
 # Indicate below if you want to save your (Matplotlib) figures
 # In the given formats, and the dpi you want to use (common for all)
 [files.figures.outputs]

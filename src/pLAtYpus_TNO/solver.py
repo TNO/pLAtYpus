@@ -256,6 +256,11 @@ def plot_survey_scores(parameters):
                         )
 
                     data_labels.append('relational_model')
+                    data_labels = [
+                        data_label.replace('_', ' ')
+                        for data_label in data_labels
+                    ]
+                
                     data_values.append(relational_model_score)
 
                     product_plot = cook.make_spider_chart(
@@ -266,7 +271,8 @@ def plot_survey_scores(parameters):
                         spider_alpha
                     )
                     product_plot.legend(fontsize=6)
-                    product_plot.set_title(f'{product}', fontsize=12)
+                    product_display = product.replace('_', ' ')
+                    product_plot.set_title(f'{product_display}', fontsize=12)
                     product_plot.set_yticks(product_plot.get_yticks())
                     product_plot.set_yticklabels(
                         product_plot.get_yticklabels(), fontsize=8

@@ -121,6 +121,8 @@ def update_survey_topic_values(
     to update several stakeholders, products, components, and/or adopt/leave),
     and the new value.
     '''
+    new_value = np.float64(new_value)
+    # In case strings are entered, for example
     file_parameters = parameters['files']
     output_folder = file_parameters['output_folder']
     groupfile_name = file_parameters['groupfile_name']
@@ -149,6 +151,8 @@ def update_intention_weights(
     their sum is still one.
     If there are more changes, you can iterate.
     '''
+    new_weight = np.float64(new_weight) 
+    # In case strings are entered, for example
     file_parameters = parameters['files']
     output_folder = file_parameters['output_folder']
     groupfile_name = file_parameters['groupfile_name']
@@ -176,7 +180,6 @@ def update_intention_weights(
         for weight in weights_for_weight_shift_split
     ])
     # This needs to be normalised, np.array so we can multiply it by a float
-
     weight_shift_of_changed_category = (
         new_weight - old_weight_of_changed_category
     )
@@ -221,6 +224,8 @@ def update_initial_yes(
     If several products/countries, stakeholders have changed, then you can
     iterate.
     '''
+    new_initial_yes_value = np.float64(new_initial_yes_value)
+    # In case strings are entered, for example
     file_parameters = parameters['files']
     output_folder = file_parameters['output_folder']
     groupfile_name = file_parameters['groupfile_name']
@@ -376,7 +381,6 @@ def get_output_tables(product, parameters):
 if __name__ == '__main__':
     parameters_file_name = 'pLAtYpus.toml'
     parameters = cook.parameters_from_TOML(parameters_file_name)
-
     do_reset_to_survey = False
     if do_reset_to_survey:
         reset_to_survey(parameters)
