@@ -157,13 +157,11 @@ def get_survey_product_values(parameters):
         relations_deviations_dataframe = (
             get_relationship_deviations(stakeholder, parameters)
         )
-        get_bidirectional_relationship_deviations(parameters)
-        get_product_relation_deviations(parameters)
+
         relations_overlap_dataframe = (
             get_relationship_overlap(stakeholder, parameters)
         )
-        get_bidirectional_relationship_overlap(parameters)
-        get_product_relation_overlap(parameters)
+        
         use_overlap = (
             parameters['survey']['relation_definitions']['use_overlap']
         )
@@ -223,6 +221,12 @@ def get_survey_product_values(parameters):
             initial_yes, f'Initial Yes {product}', groupfile_name,
             output_folder, parameters
         )
+    # Now that we iterated over the stakeholders, we can get the
+    # bidirectional and product relationship scores
+    get_bidirectional_relationship_deviations(parameters)
+    get_product_relation_deviations(parameters)
+    get_bidirectional_relationship_overlap(parameters)
+    get_product_relation_overlap(parameters)
     # Finally, we make a copy of the database for resets in the GREAT tool
     # This is a version with only the survey data
     groupfile_name_only_survey = file_parameters['groupfile_name_only_survey']
@@ -534,6 +538,7 @@ def get_relationship_overlap(stakeholder, parameters):
             relations_overlap_dataframe, overlap_table_name,
             groupfile_name, output_folder, parameters
         )
+
     return relations_overlap_dataframe
 
 
