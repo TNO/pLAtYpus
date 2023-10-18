@@ -196,12 +196,18 @@ database_file_name = 'survey.sqlite3'
 #     'common_good', 'dominated_by_partner',
 #     'give_as_receive', 'everything_has_a_price'
 # ]
+use_overlap = true 
+# Set to false to use relations deviations instead of overlap
 relation_types = ['perceived', 'ideal']
 table_name = 'relations_from_survey'
 deviations_table = 'relations_deviations'
+overlap_table = 'relations_overlap'
 product_deviations_table = 'product_relation_deviations'
+product_overlap_table = 'product_relation_overlap'
 bidirectional_deviations_table = 'bidirecttional_deviations'
+bidirectional_overlap_table = 'bidirectional_overlap'
 filters_reading_relations_table = ['Country']
+overlap_columns = ['Average overlap between ideal and perceived relationship']
 deviations_columns = ['Standard deviation', 'Relation score']
 relation_score_column = '"Relation score"'
 [survey.relations]

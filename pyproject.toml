@@ -4,10 +4,9 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'pLAtYpus_TNO'
-version = '1.0.2'
+version = '1.0.4'
 authors = [
-  { name='Carlos Montalvo Corral', email='carlos.montalvo@tno.nl'},
-  { name='Omar Usmani', email='Omar.Usmani@TNO.nl' }
+  {name='Omar Usmani and Carlos Montalvo', email='Omar.Usmani@TNO.nl'},
 ]
 description = 'The pLAtYpus model for engagement levels of stakeholders'
 readme = 'README.md'
