@@ -1,8 +1,8 @@
 Metadata-Version: 2.1
 Name: pLAtYpus-TNO
-Version: 1.0.2
+Version: 1.0.4
 Summary: The pLAtYpus model for engagement levels of stakeholders
-Author-email: Carlos Montalvo Corral <carlos.montalvo@tno.nl>, Omar Usmani <Omar.Usmani@TNO.nl>
+Author-email: Omar Usmani and Carlos Montalvo <Omar.Usmani@TNO.nl>
 Project-URL: Homepage, https://github.com/TNO/pLAtYpus
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: Apache Software License

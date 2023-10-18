@@ -1,5 +1,6 @@
 
 import pandas as pd
+import numpy as np
 import sqlite3
 from ETS_CookBook import ETS_CookBook as cook
 import math
@@ -158,16 +159,33 @@ def get_survey_product_values(parameters):
         )
         get_bidirectional_relationship_deviations(parameters)
         get_product_relation_deviations(parameters)
-
+        relations_overlap_dataframe = (
+            get_relationship_overlap(stakeholder, parameters)
+        )
+        get_bidirectional_relationship_overlap(parameters)
+        get_product_relation_overlap(parameters)
+        use_overlap = (
+            parameters['survey']['relation_definitions']['use_overlap']
+        )
+        overlap_column_header = (
+            parameters['survey']['relation_definitions']['overlap_columns'][0]
+        )
         partners = parameters['survey']['relations'][stakeholder]['partners']
         for country in countries:
             for partner in partners:
                 for product in products:
                     component = f'relation_score_{partner}'
-                    adopt_value = (
-                        relations_deviations_dataframe.loc[
-                            (country, product, partner)]['Relation score']
-                    )
+                    if use_overlap:
+                        adopt_value = (
+                            relations_overlap_dataframe.loc[
+                                (country, product, partner)
+                            ][overlap_column_header]
+                        )
+                    else:
+                        adopt_value = (
+                            relations_deviations_dataframe.loc[
+                                (country, product, partner)]['Relation score']
+                        )
                     leave_value = 1 - adopt_value
                     survey_dataframe.at[
                         (country, product, stakeholder, component),
@@ -406,6 +424,282 @@ def get_intention_weights(parameters):
             groupfile_name, output_folder, parameters)
 
 
+def get_relationship_overlap(stakeholder, parameters):
+    '''
+    Gets the overlap between perceived and ideal relationships.
+    For each, we look at the ratio between perceived and ideal..
+    If ideal is higher than perceived, we invert the ratio
+    (to get the overlap, the smaller of the two needs to be the numerator)
+    '''
+
+    file_parameters = parameters['files']
+    output_folder = file_parameters['output_folder']
+    groupfile_name = file_parameters['groupfile_name']
+    source_database = f'{output_folder}/{groupfile_name}.sqlite3'
+    survey_parameters = parameters['survey']
+    relation_definition_parameters = survey_parameters['relation_definitions']
+    overlap_table_name = relation_definition_parameters['overlap_table']
+    overlap_table_name = f'{stakeholder}_{overlap_table_name}'
+    filters_reading_relations_table = (
+        relation_definition_parameters['filters_reading_relations_table']
+    )
+    countries = survey_parameters['countries']
+    product_list = parameters['products']
+
+    overlap_columns = relation_definition_parameters['overlap_columns']
+
+    stakeholder_relations_parameters = (
+        survey_parameters['relations'][stakeholder]
+    )
+    partners = stakeholder_relations_parameters['partners']
+
+    relations_overlap_dataframe_index_tuples = (
+        [
+            (country, product, partner)
+            for country in countries
+            for product in product_list
+            for partner in partners
+
+        ]
+    )
+
+    relations_overlap_dataframe_index = (
+        pd.MultiIndex.from_tuples(
+            relations_overlap_dataframe_index_tuples,
+            names=['Country', 'Product', 'Partner']
+        )
+    )
+
+    relations_overlap_dataframe = (
+        pd.DataFrame(
+            columns=overlap_columns,
+            index=relations_overlap_dataframe_index)
+    )
+
+    relations_table_name_root = relation_definition_parameters['table_name']
+    with sqlite3.connect(source_database) as database_connection:
+        for country in countries:
+            for product in product_list:
+                for partner in partners:
+                    relations_table_name = (
+                        f'{stakeholder}_{relations_table_name_root}'
+                        f'_with_{partner}_for_{product}'
+                    )
+                    relations_table_query = (
+                        cook.read_query_generator(
+                            '*', relations_table_name,
+                            filters_reading_relations_table,
+                            ['='],
+                            [f'"{country}"']
+
+                            )
+                    )
+                    relations_values = (
+                        pd.read_sql(
+                            relations_table_query, con=database_connection
+                        )
+                    )
+                    relation_names = list(relations_values.columns[2:])
+
+                    perceived_relations = [
+                        relations_values[relation_name][0]
+                        for relation_name in relation_names
+                    ]
+                    ideal_relations = [
+                        relations_values[relation_name][1]
+                        for relation_name in relation_names
+                    ]
+
+                    overlaps = [
+                        perceived_relation / ideal_relation
+                        if ideal_relation != 0
+                        else 0  # To avoid divisions by zero
+                        for perceived_relation, ideal_relation
+                        in zip(perceived_relations, ideal_relations)
+                    ]
+                    # If ideal is larger than perceived, we invert the
+                    # fraction to get the actual overlap
+                    overlaps = [
+                        overlap
+                        if overlap <= 1
+                        else
+                        1 / overlap
+                        for overlap in overlaps
+                    ]
+
+                    average_overlap = np.average(overlaps)
+                    relations_overlap_dataframe.loc[
+                        country, product, partner] = average_overlap
+        cook.save_dataframe(
+            relations_overlap_dataframe, overlap_table_name,
+            groupfile_name, output_folder, parameters
+        )
+    return relations_overlap_dataframe
+
+
+def get_bidirectional_relationship_overlap(parameters):
+    '''
+    This computes the bidirectional relation overlap, i.e. how
+    good (or bad) the relation between two parties is.
+    '''
+    stakeholders = parameters['pLAtYpus']['stakeholders']
+    file_parameters = parameters['files']
+    output_folder = file_parameters['output_folder']
+    groupfile_name = file_parameters['groupfile_name']
+    source_database = f'{output_folder}/{groupfile_name}.sqlite3'
+    survey_parameters = parameters['survey']
+    relation_definition_parameters = survey_parameters['relation_definitions']
+    overlap_table_name_root = (
+        relation_definition_parameters['overlap_table']
+    )
+    bidirectional_overlap_table = (
+        relation_definition_parameters['bidirectional_overlap_table']
+    )
+    overlap_tables = {}
+    countries = survey_parameters['countries']
+    product_list = parameters['products']
+    with sqlite3.connect(source_database) as database_connection:
+        for stakeholder in stakeholders:
+            overlap_table_name = (
+                f'{stakeholder}_{overlap_table_name_root}'
+            )
+            relations_table_query = (
+                cook.read_query_generator(
+                    '*', overlap_table_name, [], [], []
+                )
+            )
+            overlap_tables[stakeholder] = pd.read_sql(
+                relations_table_query, database_connection
+            ).set_index(['Country', 'Product', 'Partner'])
+    stakeholder_pairs = []
+    for stakeholder_index, stakeholder in enumerate(stakeholders):
+        for partner in stakeholders[stakeholder_index+1:]:
+            stakeholder_pairs.append((stakeholder, partner))
+
+    bidirectional_relationships_index_tuples = [
+        (country, product, pair)
+        for country in countries
+        for product in product_list
+        for pair in stakeholder_pairs
+    ]
+    bidirectional_relationships_index = pd.MultiIndex.from_tuples(
+        bidirectional_relationships_index_tuples,
+        names=['Country', 'Product', 'Pair']
+    )
+    bidirectional_relationship_overlap = pd.DataFrame(
+        columns=(
+            parameters['survey']['relation_definitions']['overlap_columns']
+        ),
+        index=bidirectional_relationships_index
+    )
+    for country in countries:
+        for product in product_list:
+            for stakeholder_pair in stakeholder_pairs:
+
+                average_overlap = (
+                    overlap_tables[stakeholder_pair[0]]
+                    .loc[country, product, stakeholder_pair[1]]
+                    +
+                    overlap_tables[stakeholder_pair[1]]
+                    .loc[country, product, stakeholder_pair[0]]
+                ) / 2
+
+                bidirectional_relationship_overlap.loc[
+                    country, product, stakeholder_pair] = average_overlap
+
+    # sqlite3 does not support tuples, so we convert the pair names
+    # to strings
+    bidirectional_relationship_overlap = (
+        bidirectional_relationship_overlap.reset_index()
+    )
+    bidirectional_relationship_overlap['Pair'] = (
+        bidirectional_relationship_overlap['Pair'].astype('str')
+    )
+    cook.save_dataframe(
+            bidirectional_relationship_overlap,
+            bidirectional_overlap_table,
+            groupfile_name, output_folder, parameters
+        )
+
+
+def get_product_relation_overlap(parameters):
+    '''
+    This gets the relation overlap for a given product.
+    We take the average overlap for that given product to get a general
+    overlap score.
+    '''
+    stakeholders = parameters['pLAtYpus']['stakeholders']
+    file_parameters = parameters['files']
+    output_folder = file_parameters['output_folder']
+    groupfile_name = file_parameters['groupfile_name']
+    source_database = f'{output_folder}/{groupfile_name}.sqlite3'
+    survey_parameters = parameters['survey']
+    relation_definition_parameters = survey_parameters['relation_definitions']
+    product_overlap_table = (
+        relation_definition_parameters['product_overlap_table']
+    )
+    overlap_table_name_root = (
+        relation_definition_parameters['overlap_table']
+    )
+    overlap_tables = {}
+    countries = survey_parameters['countries']
+    product_list = parameters['products']
+    with sqlite3.connect(source_database) as database_connection:
+        for stakeholder in stakeholders:
+            overlap_table_name = (
+                f'{stakeholder}_{overlap_table_name_root}'
+            )
+            relations_table_query = (
+                cook.read_query_generator(
+                    '*', overlap_table_name, [], [], []
+                )
+            )
+            overlap_tables[stakeholder] = pd.read_sql(
+                relations_table_query, database_connection
+            ).set_index(['Country', 'Product', 'Partner'])
+    product_relationships_index_tuples = [
+        (country, product)
+        for country in countries
+        for product in product_list
+    ]
+    product_relationships_index = pd.MultiIndex.from_tuples(
+        product_relationships_index_tuples,
+        names=['Country', 'Product']
+    )
+    overlap_columns = (
+        parameters['survey']['relation_definitions']['overlap_columns']
+    )
+    product_relationship_overlap = pd.DataFrame(
+        columns=overlap_columns,
+        index=product_relationships_index
+    )
+    for country in countries:
+        for product in product_list:
+            average_overlap = (
+                sum(
+                    sum(
+                        overlap_tables[stakeholder]
+                        .loc[country, product][overlap_columns[0]]
+                    )
+                    for stakeholder in stakeholders
+                )
+                /
+                (len(stakeholders)*(len(stakeholders)-1))
+                # If you have a division by zero,
+                # that's because you only have one stakeholder,
+                # which would make this meaningless.
+            )
+
+            product_relationship_overlap.loc[country, product] = (
+                average_overlap
+            )
+    cook.save_dataframe(
+            product_relationship_overlap,
+            product_overlap_table,
+            groupfile_name, output_folder, parameters
+        )
+
+
 def get_relationship_deviations(stakeholder, parameters):
     '''
     Gets the deviations between perceived and ideal relationships.
@@ -551,7 +845,9 @@ def get_bidirectional_relationship_deviations(parameters):
         names=['Country', 'Product', 'Pair']
     )
     bidirectional_relationship_deviations = pd.DataFrame(
-        columns=['Standard Deviation', 'Relation score'],
+        columns=(
+            parameters['survey']['relation_definitions']['deviations_columns']
+        ),
         index=bidirectional_relationships_index
     )
     for country in countries:
@@ -640,7 +936,9 @@ def get_product_relation_deviations(parameters):
         names=['Country', 'Product']
     )
     product_relationship_deviations = pd.DataFrame(
-        columns=['Standard Deviation', 'Relation score'],
+        columns=(
+            parameters['survey']['relation_definitions']['deviations_columns']
+        ),
         index=product_relationships_index
     )
     for country in countries:
@@ -678,4 +976,11 @@ if __name__ == '__main__':
 
     parameters_file_name = 'pLAtYpus.toml'
     parameters = cook.parameters_from_TOML(parameters_file_name)
+    # stakeholders = parameters['pLAtYpus']['stakeholders']
+    # for stakeholder in stakeholders:
+    #     print(stakeholder)
+    #     relations_overlap_dataframe = (
+    #         get_relationship_overlap(stakeholder, parameters)
+    #     )
+    #     print(relations_overlap_dataframe)
     get_survey_product_values(parameters)
