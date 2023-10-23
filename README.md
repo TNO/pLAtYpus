@@ -16,9 +16,19 @@ pip install pLAtYpus_TNO
 ```
 (or copy the files in the src/pLAtYpus_TNO/ folder)
 You will also need a configuration file that can be found in the root folder
-of the Github repository}[https://https://github.com/TNO/pLAtYpus]
+of the [Github repository](https://https://github.com/TNO/pLAtYpus)
 ### Use
 
+## Model explanation
+### Phases
+#### Attention
+<img src="Attention.svg" alt="Attention" width=100%></td>
+
+#### Enable
+<img src="Enable.svg" alt="Enable" width=100%></td>
+
+#### Attention
+<img src="Intention.svg" alt="Intention" width=100%></td>
 
 ## Sources 
 ### Map data
@@ -64,7 +74,7 @@ if __name__ == '__main__':
 You can however run the tool part with the provided pLAtYpus.sqlite3
 (and its version containing only survey data, used for resets) 
 that is in the output/  folder in the
-(Github repository}[https://https://github.com/TNO/pLAtYpus]
+[Github repository](https://https://github.com/TNO/pLAtYpus)
 
 ## Licence
 
