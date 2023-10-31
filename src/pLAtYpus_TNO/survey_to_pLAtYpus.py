@@ -161,7 +161,7 @@ def get_survey_product_values(parameters):
         relations_overlap_dataframe = (
             get_relationship_overlap(stakeholder, parameters)
         )
-        
+
         use_overlap = (
             parameters['survey']['relation_definitions']['use_overlap']
         )

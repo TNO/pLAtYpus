@@ -1,5 +1,8 @@
 .gitignore
+Attention.svg
+Enable.svg
 GRETA_Logo_Acronym_RGB-1-1.svg
+Intention.svg
 LICENCE
 README.md
 eu-emblem-low-res.jpg

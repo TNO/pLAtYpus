@@ -260,7 +260,7 @@ def plot_survey_scores(parameters):
                         data_label.replace('_', ' ')
                         for data_label in data_labels
                     ]
-                
+
                     data_values.append(relational_model_score)
 
                     product_plot = cook.make_spider_chart(
