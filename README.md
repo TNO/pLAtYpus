@@ -3,8 +3,11 @@
 This repository contains the pLAtYpus 
 model.
 
+
+
+
 ## Authors and contact
-Carlos Montalvo (carlos.montalvo@tno.nl)
+Carlos Montalvo (Carlos.Montalvo@tno.nl)
 Omar Usmani (Omar.Usmani@TNO.nl)
 
 
@@ -103,6 +106,13 @@ project (funded from
 the European Union’s 
 HORIZON 2020 Research and Innovation programme 
 under grant agreement N°101022317.).
+
+This model was used in the GRETA Analytics tool.
+
+GRETA Analytics is a Shiny app developed by 
+GESIS – Leibniz Institute for the Social Sciences in close collaboration 
+with all GRETA partners and maintained by Jonas Lieth (jonas.lieth@gesis.org)
+https://projectgreta.shinyapps.io/greta-analytics/?tab=stakeholder
 
 ### **Goal**
 The main goal of providing this repository is transparency regarding the 
