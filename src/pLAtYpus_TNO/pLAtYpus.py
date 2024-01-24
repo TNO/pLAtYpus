@@ -1,4 +1,3 @@
-
 import datetime
 
 from ETS_CookBook import ETS_CookBook as cook
@@ -38,24 +37,23 @@ if __name__ == '__main__':
         )
         print(stakeholder)
         process_survey_data.write_full_processed_data(
-            parameters, topic_answers, topic_dataframe,
-            stakeholder
+            parameters, topic_answers, topic_dataframe, stakeholder
         )
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())
 
     start = datetime.datetime.now()
     survey_to_pLAtYpus.get_survey_product_values(parameters)
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())
 
     start = datetime.datetime.now()
     solver.get_all_evolutions_and_plots(parameters)
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())
 
     start = datetime.datetime.now()
     maps.make_long_term_average_tables(parameters)
     maps.make_area_maps(parameters)
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())

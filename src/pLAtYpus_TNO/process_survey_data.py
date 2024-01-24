@@ -1,5 +1,3 @@
-
-
 import os
 import tomllib
 import sqlite3
@@ -22,11 +20,11 @@ def read_source_sheet(stakeholder, parameters):
     stakeholders = parameters['pLAtYpus']['stakeholders']
     survey_data_source_parameters = parameters['survey']['data']['source']
     source_sheets = survey_data_source_parameters['source_sheets']
-    source_stakeholder_labels = (
-        survey_data_source_parameters['source_stakeholder_labels']
-    )
-    stakeholder_label_dictionary = (
-        dict(zip(stakeholders, source_stakeholder_labels))
+    source_stakeholder_labels = survey_data_source_parameters[
+        'source_stakeholder_labels'
+    ]
+    stakeholder_label_dictionary = dict(
+        zip(stakeholders, source_stakeholder_labels)
     )
     stakeholder_label = stakeholder_label_dictionary[stakeholder]
 
@@ -35,7 +33,7 @@ def read_source_sheet(stakeholder, parameters):
     # are integers)
     # We need to shift this by 4 because teh data starts in the 4th column
     country_names = {
-        int(country_number+4): country
+        int(country_number + 4): country
         for country_number, country in enumerate(country_names)
     }
 
@@ -52,15 +50,13 @@ def read_source_sheet(stakeholder, parameters):
 
     # This gives the number of merged rows for topic headers
     topic_merged_rows_list = survey_data_source_parameters['topic_merged_rows']
-    topic_merged_rows_dicttionary = (
-        dict(zip(stakeholders, topic_merged_rows_list))
+    topic_merged_rows_dicttionary = dict(
+        zip(stakeholders, topic_merged_rows_list)
     )
     topic_merged_rows = topic_merged_rows_dicttionary[stakeholder]
 
     # This is the raw data we want to process (we dont use its headers)
-    raw_data = pd.read_excel(
-        source_file, sheet_name=source_sheet, header=None
-    )
+    raw_data = pd.read_excel(source_file, sheet_name=source_sheet, header=None)
     # The topics and questions are in the first column
     question_headers = raw_data[0]
     # We want a list of topics, questions, and their rows
@@ -77,29 +73,25 @@ def read_source_sheet(stakeholder, parameters):
         # Questions and topics are not empty/nan
         if question_header == question_header:
             # To avoid issues with going further than the last entry
-            if row_index < (len(question_headers)-2):
+            if row_index < (len(question_headers) - 2):
                 # We check if the next two  values are empty/nan for citizens
                 # For others, it is the next value only (less celle merged)
                 # Was two for citizens, but does not seem to work for
                 # business and government
                 if stakeholder == 'citizens':
                     if (
-                            (
-                                question_headers[row_index+1] !=
-                                question_headers[row_index+1]
-                            )
-                            and
-                            (
-                                question_headers[row_index+2] !=
-                                question_headers[row_index+2]
-                            )
-                            ):
+                        question_headers[row_index + 1]
+                        != question_headers[row_index + 1]
+                    ) and (
+                        question_headers[row_index + 2]
+                        != question_headers[row_index + 2]
+                    ):
                         # If the topic_merged_rows-th next is not empty,
                         # then it's a topic
                         if (
-                                question_headers[row_index+topic_merged_rows]
-                                ==
-                                question_headers[row_index+topic_merged_rows]):
+                            question_headers[row_index + topic_merged_rows]
+                            == question_headers[row_index + topic_merged_rows]
+                        ):
                             topics.append(question_header)
                             topic_rows.append(row_index)
                         # Otherwise, it's a question
@@ -108,17 +100,15 @@ def read_source_sheet(stakeholder, parameters):
                             question_rows.append(row_index)
                 else:
                     if (
-                            (
-                                question_headers[row_index+1] !=
-                                question_headers[row_index+1]
-                            )
-                            ):
+                        question_headers[row_index + 1]
+                        != question_headers[row_index + 1]
+                    ):
                         # If the topic_merged_rows-th next is not empty,
                         # then it's a topic
                         if (
-                                question_headers[row_index+topic_merged_rows]
-                                ==
-                                question_headers[row_index+topic_merged_rows]):
+                            question_headers[row_index + topic_merged_rows]
+                            == question_headers[row_index + topic_merged_rows]
+                        ):
                             topics.append(question_header)
                             topic_rows.append(row_index)
                         # Otherwise, it's a question
@@ -141,8 +131,9 @@ def read_source_sheet(stakeholder, parameters):
         count_index = 1
         # We count the empty values, which give us the array size
         while (
-                question_headers[row_index+count_index] !=
-                question_headers[row_index+count_index]):
+            question_headers[row_index + count_index]
+            != question_headers[row_index + count_index]
+        ):
             array_size += 1
             count_index += 1
         array_sizes.append(array_size)
@@ -150,8 +141,9 @@ def read_source_sheet(stakeholder, parameters):
     # We now can extract the arrays that will be stored in a dictionary
     topic_answers = {}
     for row_index, array_size, question, topic in zip(
-            question_rows, array_sizes, questions, topics):
-        raw_array = raw_data.iloc[row_index:row_index+array_size+1]
+        question_rows, array_sizes, questions, topics
+    ):
+        raw_array = raw_data.iloc[row_index : row_index + array_size + 1]
         count_array = raw_array.dropna(subset=1)
         count_array = count_array.set_index(1)
         count_array.index.name = question
@@ -162,13 +154,12 @@ def read_source_sheet(stakeholder, parameters):
         count_array = count_array.astype(str)
 
         for column in count_array.columns:
-
             # count_array[column] = (
             #     count_array[column].str.extract(pat='(\d+)', expand=False)
             # )
             # We remove letters (used to annotate) from the answers
-            count_array[column] = (
-                count_array[column].str.replace('\D', '', regex=True)
+            count_array[column] = count_array[column].str.replace(
+                '\D', '', regex=True
             )
             # We have some zeroes that are annotated with numbers
             # So we find them and replace the value with zero
@@ -185,7 +176,8 @@ def read_source_sheet(stakeholder, parameters):
 
 
 def write_full_processed_data(
-        parameters, topic_answers, topic_dataframe, stakeholder):
+    parameters, topic_answers, topic_dataframe, stakeholder
+):
     '''
     This function writes all the topics to an Excel file
     '''
@@ -194,9 +186,9 @@ def write_full_processed_data(
     output_parameters = survey_data_parameters['output']
     output_folder = output_parameters['output_folder']
     full_output_file_prefix = output_parameters['full_output_file_prefix']
-    full_output_file_extension = (
-        output_parameters['full_output_file_extension']
-    )
+    full_output_file_extension = output_parameters[
+        'full_output_file_extension'
+    ]
     full_output_file = (
         f'{output_folder}/{full_output_file_prefix}_{stakeholder}'
         f'{full_output_file_extension}'
@@ -209,25 +201,26 @@ def write_full_processed_data(
         )
 
     my_writer = pd.ExcelWriter(
-        full_output_file, engine=writing_engine, mode='a',
-        if_sheet_exists='replace'
+        full_output_file,
+        engine=writing_engine,
+        mode='a',
+        if_sheet_exists='replace',
     )
 
     with my_writer:
-
         topic_dataframe.to_excel(my_writer, f'{stakeholder}_Topics')
         for topic_sheet, topic in zip(
-                topic_dataframe['Sheet name'], topic_answers):
-            topic_answers[topic].to_excel(
-                    my_writer, sheet_name=topic_sheet
-                )
+            topic_dataframe['Sheet name'], topic_answers
+        ):
+            topic_answers[topic].to_excel(my_writer, sheet_name=topic_sheet)
 
     database_file_name = output_parameters['database_file_name']
     database_file = f'{output_folder}/{database_file_name}'
     with sqlite3.connect(database_file) as database_connection:
         topic_dataframe.to_sql(
             f'{stakeholder}_Topics',
-            con=database_connection, if_exists='replace'
+            con=database_connection,
+            if_exists='replace',
         )
 
         for topic in topic_answers:
@@ -238,12 +231,12 @@ def write_full_processed_data(
 
             topic_answers[topic].to_sql(
                 f'{stakeholder}_{topic_clean}',
-                con=database_connection, if_exists='replace'
+                con=database_connection,
+                if_exists='replace',
             )
 
 
 if __name__ == '__main__':
-
     parameters_file_name = 'pLAtYpus.toml'
     parameters = cook.parameters_from_TOML(parameters_file_name)
     stakeholders = parameters['pLAtYpus']['stakeholders']
@@ -254,6 +247,5 @@ if __name__ == '__main__':
         print(stakeholder)
 
         write_full_processed_data(
-            parameters, topic_answers, topic_dataframe,
-            stakeholder
+            parameters, topic_answers, topic_dataframe, stakeholder
         )

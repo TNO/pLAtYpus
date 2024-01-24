@@ -111,8 +111,14 @@ def reset_to_survey(parameters):
 
 
 def update_survey_topic_values(
-        product, country, stakeholder, component,
-        adopt_leave, new_value, parameters):
+    product,
+    country,
+    stakeholder,
+    component,
+    adopt_leave,
+    new_value,
+    parameters,
+):
     '''
     This updates the survey topic values in the database.
     You need to provide a product, a country,
@@ -129,20 +135,19 @@ def update_survey_topic_values(
     model_database = f'{output_folder}/{groupfile_name}.sqlite3'
     table_to_update = f'"survey_topics"'
     cook.update_database_table(
-                model_database,
-                table_to_update, [adopt_leave], [new_value],
-                ['Product', 'Country', 'Stakeholder', 'Component'],
-                ['=', '=', '=', '='],
-                [
-                    f'"{product}"', f'"{country}"',
-                    f'"{stakeholder}"', f'"{component}"'
-                ]
-                )
+        model_database,
+        table_to_update,
+        [adopt_leave],
+        [new_value],
+        ['Product', 'Country', 'Stakeholder', 'Component'],
+        ['=', '=', '=', '='],
+        [f'"{product}"', f'"{country}"', f'"{stakeholder}"', f'"{component}"'],
+    )
 
 
 def update_intention_weights(
-        product, stakeholder, changed_intention_category,
-        new_weight, parameters):
+    product, stakeholder, changed_intention_category, new_weight, parameters
+):
     '''
     This updates the Intention weights in the database.
     You need to provide a product, a stakeholder (you can iterate if you want
@@ -159,15 +164,15 @@ def update_intention_weights(
     model_database = f'{output_folder}/{groupfile_name}.sqlite3'
     weights_table_name = f'"Intention Weights {product}"'
     old_weights_query = cook.read_query_generator(
-        f'Category, {stakeholder}', weights_table_name, [], [],
-        []
+        f'Category, {stakeholder}', weights_table_name, [], [], []
     )
     with sqlite3.connect(model_database) as database_connection:
         old_weights = pd.read_sql(
-            old_weights_query, database_connection).set_index('Category')
-    old_weight_of_changed_category = (
-        old_weights.loc[changed_intention_category].values[0]
-    )
+            old_weights_query, database_connection
+        ).set_index('Category')
+    old_weight_of_changed_category = old_weights.loc[
+        changed_intention_category
+    ].values[0]
     intention_categories = old_weights.index
     weights_for_weight_shift_split = [
         old_weights.loc[intention_category].values[0]
@@ -175,16 +180,18 @@ def update_intention_weights(
         else 0
         for intention_category in intention_categories
     ]
-    weights_for_weight_shift_split = np.array([
-        weight/sum(weights_for_weight_shift_split)
-        for weight in weights_for_weight_shift_split
-    ])
+    weights_for_weight_shift_split = np.array(
+        [
+            weight / sum(weights_for_weight_shift_split)
+            for weight in weights_for_weight_shift_split
+        ]
+    )
     # This needs to be normalised, np.array so we can multiply it by a float
     weight_shift_of_changed_category = (
         new_weight - old_weight_of_changed_category
     )
 
-    weight_shifts_other_categories = - (
+    weight_shifts_other_categories = -(
         weight_shift_of_changed_category * weights_for_weight_shift_split
     )
     # To keep the total at one
@@ -192,14 +199,14 @@ def update_intention_weights(
     new_weights = [
         new_weight
         if intention_category == changed_intention_category
-        else
-        max(
+        else max(
             old_weights.loc[intention_category].values[0]
             + weight_shifts_other_categories[intention_index],
-            0
+            0,
         )  # To avoid negative weights
-        for intention_index, intention_category
-        in enumerate(intention_categories)
+        for intention_index, intention_category in enumerate(
+            intention_categories
+        )
     ]
 
     new_weights = [new_weight / sum(new_weights) for new_weight in new_weights]
@@ -207,17 +214,22 @@ def update_intention_weights(
 
     for intention_category, weight in zip(intention_categories, new_weights):
         cook.update_database_table(
-                model_database,
-                weights_table_name, [stakeholder], [weight],
-                ['Category'], ['='], [f'"{intention_category}"'])
+            model_database,
+            weights_table_name,
+            [stakeholder],
+            [weight],
+            ['Category'],
+            ['='],
+            [f'"{intention_category}"'],
+        )
     print(
         'Update all sliders (without running the solver in an infinite loop!)'
     )
 
 
 def update_initial_yes(
-        product, updated_country, stakeholder,
-        new_initial_yes_value, parameters):
+    product, updated_country, stakeholder, new_initial_yes_value, parameters
+):
     '''
     This updates the Inital Yes values in the database.
     You need to provide a product, a country, and its new initial yes value.
@@ -233,9 +245,13 @@ def update_initial_yes(
     table_to_update = f'"Initial Yes {product}"'
     cook.update_database_table(
         model_database,
-        table_to_update, [stakeholder], [new_initial_yes_value],
+        table_to_update,
+        [stakeholder],
+        [new_initial_yes_value],
         ['Country'],
-        ['='], [f'"{updated_country}"'])
+        ['='],
+        [f'"{updated_country}"'],
+    )
 
 
 def update_from_slider(slider_name, slider_value, parameters):
@@ -287,21 +303,32 @@ def update_from_slider(slider_name, slider_value, parameters):
     # For weights, we use a common value (EU-level)
     if slider_type == 'initial_yes':
         update_initial_yes(
-            slider_product, slider_country,
-            slider_stakeholder, slider_value, parameters
+            slider_product,
+            slider_country,
+            slider_stakeholder,
+            slider_value,
+            parameters,
         )
     elif slider_type == 'intention_weight':
         changed_intention_category = slider_split_values[4]
         update_intention_weights(
-            slider_product, slider_stakeholder, changed_intention_category,
-            slider_value, parameters
+            slider_product,
+            slider_stakeholder,
+            changed_intention_category,
+            slider_value,
+            parameters,
         )
     elif slider_type == 'survey_topic':
         slider_topic = slider_split_values[4]
         slider_adopt_leave = slider_split_values[5]
         update_survey_topic_values(
-            slider_product, slider_country, slider_stakeholder,
-            slider_topic, slider_adopt_leave, slider_value, parameters
+            slider_product,
+            slider_country,
+            slider_stakeholder,
+            slider_topic,
+            slider_adopt_leave,
+            slider_value,
+            parameters,
         )
 
 
@@ -319,17 +346,17 @@ def make_outputs(product, changed_country, parameters):
     for country in countries:
         solver.get_evolutions_and_plots(product, country, parameters)
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())
 
     start = datetime.datetime.now()
     maps.make_long_term_average_tables(parameters)
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())
 
     start = datetime.datetime.now()
     maps.make_product_area_map(product, parameters)
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())
 
 
 def get_output_tables(product, parameters):
@@ -374,7 +401,7 @@ def get_output_tables(product, parameters):
                 adoption_query, database_connection
             )
     end = datetime.datetime.now()
-    print((end-start).total_seconds())
+    print((end - start).total_seconds())
     return data_for_maps, adoption_curves
 
 
@@ -418,8 +445,8 @@ if __name__ == '__main__':
     slider_value = 0.89
     update_from_slider(slider_name, slider_value, parameters)
 
-    data_for_maps, adoption_curves = (
-        get_output_tables(updated_product, parameters)
+    data_for_maps, adoption_curves = get_output_tables(
+        updated_product, parameters
     )
     print(data_for_maps)
 
